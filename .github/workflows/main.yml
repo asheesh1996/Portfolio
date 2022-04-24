@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: bin/Release/netstandard2.1/publish/wwwroot
+  PUBLISH_DIR: Portfolio/bin/Release/net6.0/publish/wwwroot
 
 # Controls when the action will run
 on:
