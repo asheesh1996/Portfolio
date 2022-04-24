@@ -6,6 +6,9 @@
 <MudText Class="mb-4">Current count: @currentCount</MudText>
 <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
 
+	
+@implements IAsyncDisposable
+@inject IResizeHandler _resizeHandler
 
 @code {
     private int currentCount = 0;
@@ -14,4 +17,47 @@
     {
         currentCount++;
     }
+    private string _resizeEventId = null;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender)
+			return;
+
+		await ResizeEventHandler();
+		_pageSize = await _resizeHandler.GetPageSizeAsync();
+	}
+
+	//Resize JS
+	private PageSize _pageSize;
+	private bool _resizeSubscribed;
+	private async Task ResizeEventHandler()
+	{
+		if (_resizeSubscribed)
+		{
+			await _resizeHandler.RemovePageResizeAsync(_resizeEventId);
+		}
+		else
+		{
+			_resizeEventId = await _resizeHandler.RegisterPageResizeAsync(arg => Resized(arg, "Window resized"));
+		}
+		_resizeSubscribed = !_resizeSubscribed;
+	}
+
+	private ElementReference _resizeElement;
+	private ElementReference _log;
+	private string _logMessage;
+	private async Task Resized(ResizeEventArgs args, string message)
+	{
+		Console.WriteLine($"{DateTime.Now.TimeOfDay}: {message} - Width: {args.Width}, Height: {args.Height}{Environment.NewLine}");
+		StateHasChanged();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_resizeHandler is not null)
+		{
+			await _resizeHandler.DisposeAsync();
+		}
+	}
 }
