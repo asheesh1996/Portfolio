@@ -1,23 +1,38 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider  @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        @if (_drawerOpen)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        }
         <MudSpacer />
-        <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Light/Dark"/>
         <MudIconButton Icon="@Icons.Custom.Brands.Google" Color="Color.Inherit" Link="https://scholar.google.com/citations?user=PfqnJZgAAAAJ&hl=en&authuser=1" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://www.linkedin.com/in/asheesh-maheshwari/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/asheesh1996/" Target="_blank" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">Asheesh's Portfolio</MudText>
+            @if (_drawerOpen)
+            {
+                <MudText Typo="Typo.h6">Asheesh's Portfolio</MudText>
+            }
+            else
+            {
+                <MudAvatar Image="images/mygif.gif"  Size="Size.Medium"Class="ml-n3 " />
+            }
         </MudDrawerHeader>
         <NavMenu />
+        <MudSpacer />
+        @if (_drawerOpen)
+        {
+            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class=" ma-4 pa-4  " T="bool" Label="Switch Light/Dark Theme" />
+        }
+
     </MudDrawer>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="ma-2 pa-2">
