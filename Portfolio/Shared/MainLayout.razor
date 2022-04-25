@@ -6,25 +6,20 @@
 
 <MudLayout>
     <MudAppBar Elevation="0">
-        @if (_drawerOpen)
-        {
-            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        }
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <MudIconButton Icon="@Icons.Custom.Brands.Google" Color="Color.Inherit" Link="https://scholar.google.com/citations?user=PfqnJZgAAAAJ&hl=en&authuser=1" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://www.linkedin.com/in/asheesh-maheshwari/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/asheesh1996/" Target="_blank" />
+        <MudAvatar Image="images/mygif.gif" Size="Size.Medium" Class="ma-4 " />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true">
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="@DrawerVariant.Responsive">
         <MudDrawerHeader>
             @if (_drawerOpen)
             {
                 <MudText Typo="Typo.h6">Asheesh's Portfolio</MudText>
             }
-            else
-            {
-                <MudAvatar Image="images/mygif.gif"  Size="Size.Medium"Class="ml-n3 " />
-            }
+           
         </MudDrawerHeader>
         <NavMenu />
         <MudSpacer />
