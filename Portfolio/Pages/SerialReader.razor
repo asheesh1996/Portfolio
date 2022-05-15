@@ -8,15 +8,15 @@
 
 
 <PageTitle>Serial Reader</PageTitle>
-<MudText Typo="Typo.h6" Class="mud-width-full">@(serialPort == null ? "Nothing selected." : $"Pizza: {serialPort.PortName}")</MudText>
+<MudText Typo="Typo.h6" Class="mud-width-full">@(serialPort == null ? "Nothing selected." : $"COM PORT: {serialPort.PortName}")</MudText>
 <div class="d-flex flex-grow-1 gap-4">
-    <MudSelect Dense="true"  T="SerialPort" Label="COM PORTS"  @bind-Value="@serialPort" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+    <MudSelect Dense="true" T="SerialPort" Label="COM PORTS" @bind-Value="@serialPort" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
         @foreach (var item in portNames)
         {
-            <MudSelectItem Value="@(new SerialPort(item,@selectedBaudrate))" />
+            <MudSelectItem Value="@(new SerialPort(item))" />
         }
     </MudSelect>
-    <MudSelect Dense="true"  T="int" Label="BaudRate" @bind-Value="@selectedBaudrate" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+    <MudSelect Dense="true" T="int" Label="BaudRate" @bind-Value="@selectedBaudrate" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
         <MudSelectItem T="int" Value=@(300) />
         <MudSelectItem T="int" Value=@(600) />
         <MudSelectItem T="int" Value=@(1200) />
@@ -35,21 +35,45 @@
         <MudSelectItem T="int" Value=@(1000000) />
         <MudSelectItem T="int" Value=@(2000000) />
     </MudSelect>
-
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="TogglePort">@portStatus</MudButton>
 </div>
-<MudText Align="Align.Justify"> Lorem ipsum dolor sit amet.</MudText>
+<MudText Align="Align.Justify"> @SerialDataString</MudText>
 
 @code
 {
     SerialPort serialPort;
     int selectedBaudrate = 9600;
     List<string> portNames = new List<string>();
-
+    string portStatus = "Open";
+    string SerialDataString = "";
     protected override void OnInitialized()
     {
         UpdatePorts();
     }
 
+    private async Task TogglePort()
+    {
+        SerialDataString = "";
+        if (serialPort != null && serialPort.IsOpen == false)
+        {
+            serialPort = new SerialPort(serialPort.PortName, selectedBaudrate);
+            serialPort.Open();
+            serialPort.DataReceived += SerialPort_DataReceived;
+            portStatus = "Close";
+        }
+        else
+        {
+            serialPort.DataReceived -= SerialPort_DataReceived;
+            serialPort.Close();
+            serialPort.Dispose();
+            serialPort = null;
+            portStatus = "Open";
+        }
+    }
+    void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        SerialDataString += serialPort.ReadExisting();
+    }
 
     private void UpdatePorts()
     {

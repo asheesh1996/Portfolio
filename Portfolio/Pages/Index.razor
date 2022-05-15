@@ -1,11 +1,25 @@
 ﻿@page "/"
 
 <PageTitle>Home</PageTitle>
-<MudPaper  Height ="90vh" Width="100%" Class="z-10 ma-n20">
-    <MudAvatar Style="height:250px; width:250px; font-size:4rem;" Image="images/profile.jpg"></MudAvatar>
-    <MudSpacer></MudSpacer>
-    <MudText Align="Align.Center" Typo="Typo.h1" >Brings ideas to life with code..</MudText>
-</MudPaper>
+<MudCarousel Class="mud-width-full" Style="height:400px;" ShowArrows=true ShowBullets=true AutoCycle=true TData="object">
+    <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary" >
+        <div class="d-flex" style="height:100% ; width:100% ">
+            <MudImage  Src="images/profile.jpg"   Style="height:100% ; width:100% " ObjectPosition="ObjectPosition.Top" ObjectFit="ObjectFit.Cover"/>
+            
+
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">
+        <div class="d-flex" style="height:100% ; width:100% ">
+            <MudText Align="Align.Justify" Typo="Typo.h1">Bring ideas to life with code..</MudText>
+        </div>
+    </MudCarouselItem>
+   @* <MudCarouselItem Transition="Transition.Slide">
+        <div class="d-flex" style="height:100%">
+            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+        </div>
+    </MudCarouselItem>*@
+</MudCarousel>
 @*
 <MudTimeline>
     <MudTimelineItem Color="Color.Info" Size="Size.Small">
