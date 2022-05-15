@@ -1,16 +1,63 @@
 ﻿@page "/serialreader"
 
+
+@using System;
+@using System.Diagnostics;
+@using System.IO.Ports;
+@using System.Threading;
+
+
 <PageTitle>Serial Reader</PageTitle>
+<MudText Typo="Typo.h6" Class="mud-width-full">@(serialPort == null ? "Nothing selected." : $"Pizza: {serialPort.PortName}")</MudText>
+<div class="d-flex flex-grow-1 gap-4">
+    <MudSelect Dense="true"  T="SerialPort" Label="COM PORTS"  @bind-Value="@serialPort" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+        @foreach (var item in portNames)
+        {
+            <MudSelectItem Value="@(new SerialPort(item,@selectedBaudrate))" />
+        }
+    </MudSelect>
+    <MudSelect Dense="true"  T="int" Label="BaudRate" @bind-Value="@selectedBaudrate" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+        <MudSelectItem T="int" Value=@(300) />
+        <MudSelectItem T="int" Value=@(600) />
+        <MudSelectItem T="int" Value=@(1200) />
+        <MudSelectItem T="int" Value=@(2400) />
+        <MudSelectItem T="int" Value=@(4800) />
+        <MudSelectItem T="int" Value=@(9600) />
+        <MudSelectItem T="int" Value=@(19200) />
+        <MudSelectItem T="int" Value=@(38400) />
+        <MudSelectItem T="int" Value=@(57600) />
+        <MudSelectItem T="int" Value=@(74800) />
+        <MudSelectItem T="int" Value=@(115200) />
+        <MudSelectItem T="int" Value=@(230400) />
+        <MudSelectItem T="int" Value=@(230400) />
+        <MudSelectItem T="int" Value=@(250000) />
+        <MudSelectItem T="int" Value=@(500000) />
+        <MudSelectItem T="int" Value=@(1000000) />
+        <MudSelectItem T="int" Value=@(2000000) />
+    </MudSelect>
 
-<div class="container">
 </div>
+<MudText Align="Align.Justify"> Lorem ipsum dolor sit amet.</MudText>
+
+@code
+{
+    SerialPort serialPort;
+    int selectedBaudrate = 9600;
+    List<string> portNames = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        UpdatePorts();
+    }
 
 
-<style>
-.container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 90vh; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+    private void UpdatePorts()
+    {
+        try
+        {
+            portNames = SerialPort.GetPortNames().ToList();
+        }
+        catch { }
+    }
+
 }
-</style>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -10,7 +10,15 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
 		<PackageReference Include="MudBlazor" Version="6.0.9" />
+		<PackageReference Include="runtime.linux-arm.runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="runtime.linux-arm64.runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="runtime.linux-x64.runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="runtime.osx-arm64.runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="runtime.osx-x64.runtime.native.System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0-preview.4.22229.4" />
 	</ItemGroup>
 	
 	<ItemGroup>

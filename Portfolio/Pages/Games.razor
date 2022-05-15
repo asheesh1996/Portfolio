@@ -17,14 +17,15 @@
         {
             <MudTabPanel Text="@item.Name" ToolTip="@item.githuburl">
 
-                <div class="container">
-                    <iframe class="@item.Name" src="@item.hostingurl"></iframe>
-                </div>
+                <MudPaper Height="85vh" Width="95%">
+                    <iframe class="iframe" src="@item.hostingurl"></iframe>
+                </MudPaper>
+
             </MudTabPanel>
         }
     </ChildContent>
     <Header>
-          <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="Project Github Page" Color="Color.Inherit" Link="@_tabs[_index].githuburl" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="Project Github Page" Color="Color.Inherit" Link="@_tabs[_index].githuburl" Target="_blank" />
     </Header>
 </MudTabs>
 
@@ -32,12 +33,12 @@
     .container {
         position: relative;
         overflow: hidden;
-        width: 100%;
+        width: 97%;
         height: 85vh; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
     }
 
     /* Then style the iframe to fit in the container div with full height and width */
-    .sudoku-iframe {
+    .iframe {
         position: absolute;
         top: 0;
         left: 0;
@@ -45,25 +46,27 @@
         right: 0;
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 </style>
 
 @code
 {
-   private class TabView
-	{
-		public String Name { get; set; }
-		public String githuburl { get; set; }
-		public String hostingurl { get; set; }
-		public Guid Id { get; set; }
-	}
+    private class TabView
+    {
+        public String Name { get; set; }
+        public String githuburl { get; set; }
+        public String hostingurl { get; set; }
+        public Guid Id { get; set; }
+    }
     private List<TabView> _tabs = new();
     private int _index = 0;
     protected override void OnInitialized()
-	{
-		base.OnInitialized();
+    {
+        base.OnInitialized();
         _tabs.Add(new TabView { githuburl = "https://github.com/asheesh1996/sudokuapp", Name = "Sudoku Game", Id = Guid.NewGuid(), hostingurl = "https://asheesh1996.github.io/sudokuapp/" });
         _tabs.Add(new TabView { githuburl = "https://github.com/asheesh1996/HolosuitWebGLDemo", Name = "Holos", Id = Guid.NewGuid(), hostingurl = "https://asheesh1996.github.io/HolosuitWebGLDemo/" });
-	}
+        _tabs.Add(new TabView { githuburl = "https://github.com/asheesh1996/", Name = "TestUnity", Id = Guid.NewGuid(), hostingurl = "WebglBuild/index.html" });
+    }
 
 }
