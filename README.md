@@ -1,19 +1,22 @@
-### Hi there 👋 , I'm Asheesh Maheshwari
+<h1 align="center"> Hi there 👋 , I'm Asheesh Maheshwari </h1>
+<h3 align="center">Software Engineer who aims to develop quality product</h3>
 
-<a href="https://www.linkedin.com/in/asheesh-maheshwari/">
-  <img align="left" alt="Asheesh's LinkedIN" width="22px" src="https://raw.githubusercontent.com/peterthehan/peterthehan/master/assets/linkedin.svg" />
-</a>
+<div align=center>
+<a href="https://www.linkedin.com/in/asheesh-maheshwari/"> <img alt="Asheesh's LinkedIN" width="22px" src="https://raw.githubusercontent.com/peterthehan/peterthehan/master/assets/linkedin.svg" /></a>
 
 ![](https://visitor-badge.laobi.icu/badge?page_id=asheesh1996.asheesh1996)
 
-
-<h4> | • <a href="https://asheesh1996.github.io/Portfolio/">Website</a> • |</h4>
+<h4>⚡ | • <a href="https://asheesh1996.github.io/Portfolio/">Website</a> • | ⚡</h4>
+</div>
 
 <br />
 
-<img align="right" alt="GIF" src="https://github.com/asheesh1996/asheesh1996/blob/main/code.gif?raw=true" width="400" height="320" />
+<img align="right" alt="GIF" src="https://github.com/asheesh1996/asheesh1996/blob/main/code.gif?raw=true" width="400" height="380 " />
 
-## ⚡ Languages and Tools:
+
+<div align=left>
+<p align="left">
+<h2 align="center">⚡ Languages and Tools:</h2>
 
 ![.NET](https://img.shields.io/badge/-.NET-black?style=flat-square&logo=dotNET)
 ![C#](https://img.shields.io/badge/-C%20Sharp-black?style=flat-square&logo=csharp)
@@ -33,7 +36,7 @@
 ![BitBucket](https://img.shields.io/badge/-BitBucket-darkblue?style=flat-square&logo=bitbucket)
 ![Raspberry Pi](https://img.shields.io/badge/-Raspberry%20Pi-C51A4A?style=flat-square&logo=Raspberry-Pi)
 
-
+<p align="center">
 
 <br />
 
@@ -42,13 +45,15 @@
     src="https://github-readme-stats.vercel.app/api/top-langs?username=asheesh1996&show_icons=true&locale=en&bg_color=0d1117&text_color=ffffff&layout=compact"
     alt="asheesh1996" 
     bg_color=#808080/></p>
+</div>
 
-<br>
+<br />
 
-<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=asheesh1996&show_icons=true&locale=en&bg_color=0d1117&text_color=ffffff&repo=convoychat"
+<div align=center>
+<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=asheesh1996&show_icons=true&locale=en&theme=radical&bg_color=0d1117&text_color=ffffff&repo=convoychat"
     alt="asheesh1996" /></p>
 
-<br>
+<br />
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=asheesh1996&theme=dark&background=0d1117&date_format=M%20j%5B%2C%20Y%5D" alt="asheesh1996" /></p>
 
@@ -57,9 +62,6 @@
 <p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img
       src="https://github-profile-trophy.vercel.app/?username=adam-pw&bg_color=0d1117&text_color=ffffff" alt="adam-pw" /></a> </p> -->
       
-<p align="left"> <a href="https://twitter.com/" target="blank"><img
-      src="https://img.shields.io/twitter/follow/?logo=twitter&style=for-the-badge" alt="" /></a> </p>
-
 
 <!--
 **asheesh1996/asheesh1996** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
