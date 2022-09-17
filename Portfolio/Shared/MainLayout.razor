@@ -11,7 +11,7 @@
         <MudIconButton Icon="@Icons.Custom.Brands.Google" Color="Color.Inherit" Link="https://scholar.google.com/citations?user=PfqnJZgAAAAJ&hl=en&authuser=1" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://www.linkedin.com/in/asheesh-maheshwari/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/asheesh1996/" Target="_blank" />
-        <MudAvatar Image="images/profile2.jpg" Size="Size.Medium" Class="ma-4 " />
+        <MudAvatar Image="images/profile2.jpg" Size="MudBlazor.Size.Medium" Class="ma-4 " />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="@DrawerVariant.Responsive">
         <MudDrawerHeader>
@@ -25,7 +25,7 @@
         <MudSpacer />
         @if (_drawerOpen)
         {
-            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class=" ma-4 pa-4  " T="bool" Label="Switch Light/Dark Theme" />
+            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Tertiary" Class=" ma-4 pa-4  " T="bool" Label="Switch Light/Dark Theme" />
         }
 
     </MudDrawer>

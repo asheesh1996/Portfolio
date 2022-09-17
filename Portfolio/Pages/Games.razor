@@ -59,13 +59,12 @@
         public String hostingurl { get; set; }
         public Guid Id { get; set; }
     }
-    private List<TabView> _tabs = new();
+    private List<TabView> _tabs = new List<TabView>();
     private int _index = 0;
     protected override void OnInitialized()
     {
         base.OnInitialized();
         _tabs.Add(new TabView { githuburl = "https://github.com/asheesh1996/sudokuapp", Name = "Sudoku Game", Id = Guid.NewGuid(), hostingurl = "https://asheesh1996.github.io/sudokuapp/" });
-        _tabs.Add(new TabView { githuburl = "https://github.com/asheesh1996/HolosuitWebGLDemo", Name = "Holos", Id = Guid.NewGuid(), hostingurl = "https://asheesh1996.github.io/HolosuitWebGLDemo/" });
     }
 
 }
