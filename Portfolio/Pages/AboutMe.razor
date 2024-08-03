@@ -1,0 +1,96 @@
+﻿@page "/aboutme"
+
+<PageTitle>About Me</PageTitle>
+
+<MudPaper Height="100%" Width="100%" Class="container">
+    <MudText Align="Align.Center" Class="centered " Color=Color.Primary Typo="Typo.h1">Bring ideas to life with code..</MudText>
+
+    <MudImage Src="images/profile_exo.jpg" Fluid="true" Class="container" Style=" opacity: 0.1">
+    </MudImage>
+
+</MudPaper>
+
+
+@*<MudCarousel Class="mud-width-full" Style="height:75vh;" ShowArrows=true ShowBullets=true AutoCycle=false TData="object">*@
+
+@*<MudCarouselItem Transition="Transition.Slide" Color="@Color.Inherit" >
+
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Slide" Color="@Color.Inherit">
+        <div class="d-flex" style="height:100% ; width:100% ">
+        </div>
+    </MudCarouselItem>
+   @* <MudCarouselItem Transition="Transition.Slide">
+        <div class="d-flex" style="height:100%">
+            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+        </div>
+    </MudCarouselItem>*@
+@*</MudCarousel>*@
+<MudText Color="Color.Secondary" Align="Align.Center" Typo="Typo.h5">Work Experince</MudText>
+<MudTimeline>
+    <MudTimelineItem Color="Color.Info" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Info" Typo="Typo.h5">June 2019 - Current</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">HoloWorld</MudText>
+            <MudText>Senior Software Engineer at HoloWorld.</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+
+    <MudTimelineItem Color="Color.Success" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Success" Typo="Typo.h5">December 2018 - May 2019</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Success" Align="Align.Right" Typo="Typo.h6" GutterBottom="true">HoloWorld</MudText>
+            <MudText Align="Align.Right">Final Year Intern at HoloWorld.</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+
+    <MudTimelineItem Color="Color.Error" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Error" Typo="Typo.h5">May 2018 - July 2018</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Error" Typo="Typo.h6" GutterBottom="true">
+                Summer Research Intern at Johns Hopkins University
+            </MudText>
+            <MudText>Worked as summer research intern at NeuroEngineering Lab at JHU.</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+
+    <MudTimelineItem Color="Color.Success" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Success" Typo="Typo.h5">May 2017 - June 2017</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Success" Align="Align.Right" Typo="Typo.h6" GutterBottom="true">Jaipur Foot (BMVSS)</MudText>
+            <MudText Align="Align.Right">Intern at Jaipur Foot.</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+</MudTimeline>
+
+
+
+<style>
+    .container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 85vh; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+        text-align: center;
+    }
+
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        align-content: center;
+        font-size: 10vw;
+    }
+
+    /* Then style the iframe to fit in the container div with full height and width */
+ 
+</style>
