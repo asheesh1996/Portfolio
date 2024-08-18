@@ -1,96 +1,146 @@
-﻿@page "/aboutme"
-
-<PageTitle>About Me</PageTitle>
-
-<MudPaper Height="100%" Width="100%" Class="container">
-    <MudText Align="Align.Center" Class="centered " Color=Color.Primary Typo="Typo.h1">Bring ideas to life with code..</MudText>
-
-    <MudImage Src="images/profile_exo.jpg" Fluid="true" Class="container" Style=" opacity: 0.1">
-    </MudImage>
-
-</MudPaper>
-
-
-@*<MudCarousel Class="mud-width-full" Style="height:75vh;" ShowArrows=true ShowBullets=true AutoCycle=false TData="object">*@
-
-@*<MudCarouselItem Transition="Transition.Slide" Color="@Color.Inherit" >
-
-    </MudCarouselItem>
-    <MudCarouselItem Transition="Transition.Slide" Color="@Color.Inherit">
-        <div class="d-flex" style="height:100% ; width:100% ">
-        </div>
-    </MudCarouselItem>
-   @* <MudCarouselItem Transition="Transition.Slide">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>*@
-@*</MudCarousel>*@
-<MudText Color="Color.Secondary" Align="Align.Center" Typo="Typo.h5">Work Experince</MudText>
+﻿<MudText Color="Color.Secondary" Align="Align.Center" Typo="Typo.h4">Professional Experience</MudText>
 <MudTimeline>
-    <MudTimelineItem Color="Color.Info" Size="Size.Small">
-        <ItemOpposite>
-            <MudText Color="Color.Info" Typo="Typo.h5">June 2019 - Current</MudText>
-        </ItemOpposite>
-        <ItemContent>
-            <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">HoloWorld</MudText>
-            <MudText>Senior Software Engineer at HoloWorld.</MudText>
-        </ItemContent>
-    </MudTimelineItem>
-
-    <MudTimelineItem Color="Color.Success" Size="Size.Small">
-        <ItemOpposite>
-            <MudText Color="Color.Success" Typo="Typo.h5">December 2018 - May 2019</MudText>
-        </ItemOpposite>
-        <ItemContent>
-            <MudText Color="Color.Success" Align="Align.Right" Typo="Typo.h6" GutterBottom="true">HoloWorld</MudText>
-            <MudText Align="Align.Right">Final Year Intern at HoloWorld.</MudText>
-        </ItemContent>
-    </MudTimelineItem>
-
-    <MudTimelineItem Color="Color.Error" Size="Size.Small">
-        <ItemOpposite>
-            <MudText Color="Color.Error" Typo="Typo.h5">May 2018 - July 2018</MudText>
-        </ItemOpposite>
-        <ItemContent>
-            <MudText Color="Color.Error" Typo="Typo.h6" GutterBottom="true">
-                Summer Research Intern at Johns Hopkins University
-            </MudText>
-            <MudText>Worked as summer research intern at NeuroEngineering Lab at JHU.</MudText>
-        </ItemContent>
-    </MudTimelineItem>
-
-    <MudTimelineItem Color="Color.Success" Size="Size.Small">
-        <ItemOpposite>
-            <MudText Color="Color.Success" Typo="Typo.h5">May 2017 - June 2017</MudText>
-        </ItemOpposite>
-        <ItemContent>
-            <MudText Color="Color.Success" Align="Align.Right" Typo="Typo.h6" GutterBottom="true">Jaipur Foot (BMVSS)</MudText>
-            <MudText Align="Align.Right">Intern at Jaipur Foot.</MudText>
-        </ItemContent>
-    </MudTimelineItem>
+    @foreach (var item in WorkExperience.Concat(OpenSourceProjects.Select(p => new WorkExperienceItem
+    {
+        DateRange = p.DateRange ?? "",  // Use empty string if DateRange is null
+        Company = p.Name,
+        Position = "Open Source Contributor",
+        Description = p.Description,
+        MediaLinks = new List<MediaLink>
+        {
+            new MediaLink { Url = p.Url, Description = "Project Media" }
+        }
+    })))
+    {
+        <MudTimelineItem Color="Color.Primary" Size="Size.Medium">
+            <ItemOpposite>
+                <MudText Color="Color.Dark" Typo="Typo.h6">@item.DateRange</MudText>
+            </ItemOpposite>
+            <ItemContent>
+                <MudPaper Elevation="3" Class="pa-3">
+                    <MudText Color="Color.Primary" Typo="Typo.h6" GutterBottom="true">@item.Company</MudText>
+                    <MudText>@item.Position</MudText>
+                    <MudDivider Class="my-2" />
+                    <MudText>@item.Description</MudText>
+                    @if (item.MediaLinks != null && item.MediaLinks.Any())
+                    {
+                        <MudDivider Class="my-2" />
+                        <MudText Typo="Typo.subtitle1">Projects and Media:</MudText>
+                        <MudList>
+                            @foreach (var link in item.MediaLinks)
+                            {
+                                <MudListItem>
+                                    <MudHover>
+                                        <MudHoverTrigger>
+                                            <MudLink Href="@link.Url" Target="_blank">@link.Description</MudLink>
+                                        </MudHoverTrigger>
+                                        <MudHoverContent>
+                                            <MudPaper Elevation="4" Class="pa-3">
+                                                <MudText>@link.Description</MudText>
+                                                <MudImage Src="@link.Url" Alt="@link.Description" Style="width: 100%; height: auto;" />
+                                            </MudPaper>
+                                        </MudHoverContent>
+                                    </MudHover>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+                </MudPaper>
+            </ItemContent>
+        </MudTimelineItem>
+    }
 </MudTimeline>
 
 
+@code {
+    private List<WorkExperienceItem> WorkExperience = new List<WorkExperienceItem>
+    {
+        new WorkExperienceItem
+        {
+            DateRange = "June 2019 - Current",
+            Company = "HoloWorld",
+            Position = "Senior Software Engineer",
+            Description = "Senior Software Engineer at HoloWorld.",
+            MediaLinks = new List<MediaLink>
+            {
+                new MediaLink { Url = "https://example.com/project1", Description = "Project 1 Video" },
+                new MediaLink { Url = "https://example.com/project2", Description = "Project 2 Photo" }
+            }
+        },
+        new WorkExperienceItem
+        {
+            DateRange = "December 2018 - May 2019",
+            Company = "HoloWorld",
+            Position = "Final Year Intern",
+            Description = "Final Year Intern at HoloWorld.",
+            MediaLinks = new List<MediaLink>
+            {
+                new MediaLink { Url = "https://example.com/project3", Description = "Project 3 Link" }
+            }
+        },
+        new WorkExperienceItem
+        {
+            DateRange = "May 2018 - July 2018",
+            Company = "Johns Hopkins University",
+            Position = "Summer Research Intern",
+            Description = "Worked as summer research intern at NeuroEngineering Lab at JHU.",
+            MediaLinks = new List<MediaLink>
+            {
+                new MediaLink { Url = "https://example.com/project4", Description = "Project 4 Link" }
+            }
+        },
+        new WorkExperienceItem
+        {
+            DateRange = "May 2017 - June 2017",
+            Company = "Jaipur Foot (BMVSS)",
+            Position = "Intern",
+            Description = "Intern at Jaipur Foot.",
+            MediaLinks = new List<MediaLink>
+            {
+                new MediaLink { Url = "https://example.com/project5", Description = "Project 5 Link" }
+            }
+        }
+    };
 
-<style>
-    .container {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: 85vh; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-        text-align: center;
+    private List<OpenSourceProject> OpenSourceProjects = new List<OpenSourceProject>
+    {
+        new OpenSourceProject
+        {
+            Name = "Project 1",
+            Url = "https://github.com/yourusername/project1",
+            Description = "Description for Project 1.",
+            DateRange = "January 2022 - Present"  // Add date range here
+        },
+        new OpenSourceProject
+        {
+            Name = "Project 2",
+            Url = "https://github.com/yourusername/project2",
+            Description = "Description for Project 2.",
+            DateRange = "June 2021 - December 2021"  // Add date range here
+        }
+    };
+
+    public class WorkExperienceItem
+    {
+        public string DateRange { get; set; }
+        public string Company { get; set; }
+        public string Position { get; set; }
+        public string Description { get; set; }
+        public List<MediaLink> MediaLinks { get; set; }
     }
 
-    .centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        align-content: center;
-        font-size: 10vw;
+    public class MediaLink
+    {
+        public string Url { get; set; }
+        public string Description { get; set; }
     }
 
-    /* Then style the iframe to fit in the container div with full height and width */
- 
-</style>
+    public class OpenSourceProject
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+        public string Description { get; set; }
+        public string DateRange { get; set; }  // Added DateRange
+    }
+}
+  

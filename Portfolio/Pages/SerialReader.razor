@@ -1,87 +1,88 @@
 ﻿@page "/serialreader"
 
-
 @using System;
-@using System.Diagnostics;
-@using System.IO.Ports;
-@using System.Threading;
-
+@using System.Threading.Tasks;
+@inject IJSRuntime JS
 
 <PageTitle>Serial Reader</PageTitle>
-<MudText Typo="Typo.h6" Class="mud-width-full">@(serialPort == null ? "Nothing selected." : $"COM PORT: {serialPort.PortName}")</MudText>
+<MudText Typo="Typo.h6" Class="mud-width-full" @onclick ="UpdatePorts">@(portName == null ? "Nothing selected." : $"COM PORT: {portName}")</MudText>
 <div class="d-flex flex-grow-1 gap-4">
-    <MudSelect Dense="true" T="SerialPort" Label="COM PORTS" @bind-Value="@serialPort" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+    <MudSelect Dense="true" T="string" Label="COM PORTS" @bind-SelectedValue="@portName" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
         @foreach (var item in portNames)
         {
-            <MudSelectItem Value="@(new SerialPort(item))" />
+            <MudSelectItem Value="@item">@item</MudSelectItem>
         }
     </MudSelect>
-    <MudSelect Dense="true" T="int" Label="BaudRate" @bind-Value="@selectedBaudrate" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
-        <MudSelectItem T="int" Value=@(300) />
-        <MudSelectItem T="int" Value=@(600) />
-        <MudSelectItem T="int" Value=@(1200) />
-        <MudSelectItem T="int" Value=@(2400) />
-        <MudSelectItem T="int" Value=@(4800) />
-        <MudSelectItem T="int" Value=@(9600) />
-        <MudSelectItem T="int" Value=@(19200) />
-        <MudSelectItem T="int" Value=@(38400) />
-        <MudSelectItem T="int" Value=@(57600) />
-        <MudSelectItem T="int" Value=@(74800) />
-        <MudSelectItem T="int" Value=@(115200) />
-        <MudSelectItem T="int" Value=@(230400) />
-        <MudSelectItem T="int" Value=@(230400) />
-        <MudSelectItem T="int" Value=@(250000) />
-        <MudSelectItem T="int" Value=@(500000) />
-        <MudSelectItem T="int" Value=@(1000000) />
-        <MudSelectItem T="int" Value=@(2000000) />
+    <MudSelect Dense="true" T="int" Label="BaudRate" @bind-SelectedValue="@selectedBaudrate" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+        <MudSelectItem Value=@(300) />
+        <MudSelectItem Value=@(600) />
+        <MudSelectItem Value=@(1200) />
+        <MudSelectItem Value=@(2400) />
+        <MudSelectItem Value=@(4800) />
+        <MudSelectItem Value=@(9600) />
+        <MudSelectItem Value=@(19200) />
+        <MudSelectItem Value=@(38400) />
+        <MudSelectItem Value=@(57600) />
+        <MudSelectItem Value=@(74800) />
+        <MudSelectItem Value=@(115200) />
+        <MudSelectItem Value=@(230400) />
+        <MudSelectItem Value=@(230400) />
+        <MudSelectItem Value=@(250000) />
+        <MudSelectItem Value=@(500000) />
+        <MudSelectItem Value=@(1000000) />
+        <MudSelectItem Value=@(2000000) />
     </MudSelect>
     <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="TogglePort">@portStatus</MudButton>
 </div>
-<MudText Align="Align.Justify"> @SerialDataString</MudText>
+<MudText Align="Align.Justify">@SerialDataString</MudText>
 
-@code
-{
-    SerialPort serialPort;
-    int selectedBaudrate = 9600;
-    List<string> portNames = new List<string>();
-    string portStatus = "Open";
-    string SerialDataString = "";
-    protected override void OnInitialized()
+@code {
+    private string portName;
+    private int selectedBaudrate = 9600;
+    private List<string> portNames = new List<string>();
+    private string portStatus = "Open";
+    private string SerialDataString = "";
+
+    protected override async Task OnInitializedAsync()
     {
-        UpdatePorts();
+        await UpdatePorts();
     }
 
     private async Task TogglePort()
     {
         SerialDataString = "";
-        if (serialPort != null && serialPort.IsOpen == false)
+        if (portStatus == "Open")
         {
-            serialPort = new SerialPort(serialPort.PortName, selectedBaudrate);
-            serialPort.Open();
-            serialPort.DataReceived += SerialPort_DataReceived;
-            portStatus = "Close";
+            bool isConnected = await JS.InvokeAsync<bool>("serialHelper.connect", selectedBaudrate);
+            if (isConnected)
+            {
+                portStatus = "Close";
+                await ReadFromPort();
+            }
         }
         else
         {
-            serialPort.DataReceived -= SerialPort_DataReceived;
-            serialPort.Close();
-            serialPort.Dispose();
-            serialPort = null;
+            await JS.InvokeVoidAsync("serialHelper.disconnect");
             portStatus = "Open";
         }
     }
-    void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-    {
-        SerialDataString += serialPort.ReadExisting();
-    }
 
-    private void UpdatePorts()
+    private async Task ReadFromPort()
     {
-        try
+        while (portStatus == "Close")
         {
-            portNames = SerialPort.GetPortNames().ToList();
+            string data = await JS.InvokeAsync<string>("serialHelper.read");
+            if (!string.IsNullOrEmpty(data))
+            {
+                SerialDataString += data;
+                StateHasChanged();
+            }
+            await Task.Delay(100);
         }
-        catch { }
     }
 
+    private async Task UpdatePorts()
+    {
+        portNames = await JS.InvokeAsync<List<string>>("serialHelper.getPorts");
+    }
 }
