@@ -1,33 +1,33 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="0">
+    <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.Google" Color="Color.Inherit" Link="https://scholar.google.com/citations?user=PfqnJZgAAAAJ&hl=en&authuser=1" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://www.linkedin.com/in/asheesh-maheshwari/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/asheesh1996/" Target="_blank" />
-        <MudAvatar Image="images/profile2.jpg" Size="MudBlazor.Size.Medium" Class="ma-4 " />
+        <MudIconButton Icon="@Icons.Custom.Brands.Google" Color="Color.Inherit" Href="https://scholar.google.com/citations?user=PfqnJZgAAAAJ&hl=en&authuser=1" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Href="https://www.linkedin.com/in/asheesh-maheshwari/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/asheesh1996/" Target="_blank" />
+        <MudAvatar Image="images/profile2.jpg" Size="MudBlazor.Size.Medium"/>
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="@DrawerVariant.Responsive">
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="2" Variant="@DrawerVariant.Responsive">
         <MudDrawerHeader>
             @if (_drawerOpen)
             {
-                <MudText Typo="Typo.h6">! ! ! N A M A S T E ! ! !</MudText>
+                @* <MudText Typo="Typo.h6">! ! ! N A M A S T E ! ! !</MudText> *@
+                <div style="width:100%;height:0;padding-bottom:100%;position:relative;pointer-events:none;">
+                    <iframe src="https://giphy.com/embed/wwg1suUiTbCY8H8vIA" width="100%" height="100%"
+                            style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                </div>
             }
-
+            
         </MudDrawerHeader>
         <NavMenu />
-        <MudSpacer />
-        @if (_drawerOpen)
-        {
-            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Tertiary" Class=" ma-4 pa-4  " T="bool" Label="Switch Light/Dark Theme" />
-        }
-
     </MudDrawer>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="ma-1 pa-1">
@@ -36,47 +36,75 @@
     </MudMainContent>
 </MudLayout>
 
-@code {
-    bool _drawerOpen = true;
-    private MudTheme _theme = new()
-    {
-        Palette = new Palette()
-        {
-            Primary = "#333333", // Light mode primary color
-            Secondary = "#808080",
-            Background = "#FAFAFA",
-            Surface = "#F5F5F5",
-            AppbarBackground = "#333333",
-            DrawerBackground = "#FFFFFF",
-            DrawerText = "#333333",
-            DrawerIcon = "#333333",
-            TextPrimary = "#333333",
-            TextSecondary = "#808080",
-            ActionDefault = "#333333",
-            ActionDisabled = "#BDBDBD",
-            ActionDisabledBackground = "#E0E0E0",
-        },
-        PaletteDark = new Palette()
-        {
-            Primary = "#0078D4", // Dark mode primary color
-            Secondary = "#6264A7",
-            Background = "#1B1B1B",
-            Surface = "#252526",
-            AppbarBackground = "#1B1B1B",
-            DrawerBackground = "#252526",
-            DrawerText = "#FFFFFF",
-            DrawerIcon = "#FFFFFF",
-            TextPrimary = "#FFFFFF",
-            TextSecondary = "#D0D0D0",
-            ActionDefault = "#FFFFFF",
-            ActionDisabled = "#5C5C5C",
-            ActionDisabledBackground = "#3A3A3A",
-        }
-    };
+@code
+{
+    private bool _drawerOpen = true;
     private bool _isDarkMode = true;
-    void DrawerToggle()
+    private MudTheme? _theme = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _theme = new()
+            {
+                LayoutProperties = new LayoutProperties()
+            };
+    }
+
+    private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
-   
+
+    private void DarkModeToggle()
+    {
+        _isDarkMode = !_isDarkMode;
+    }
+
+    private readonly PaletteLight _lightPalette = new()
+        {
+            Black = "#110e2d",
+            AppbarText = "#424242",
+            AppbarBackground = "rgba(255,255,255,0.8)",
+            DrawerBackground = "#ffffff",
+            GrayLight = "#e8e8e8",
+            GrayLighter = "#f9f9f9",
+        };
+
+    private readonly PaletteDark _darkPalette = new()
+        {
+            Primary = "#7e6fff",
+            Surface = "#1e1e2d",
+            Background = "#1a1a27",
+            BackgroundGray = "#151521",
+            AppbarText = "#92929f",
+            AppbarBackground = "rgba(26,26,39,0.8)",
+            DrawerBackground = "#1a1a27",
+            ActionDefault = "#74718e",
+            ActionDisabled = "#9999994d",
+            ActionDisabledBackground = "#605f6d4d",
+            TextPrimary = "#b2b0bf",
+            TextSecondary = "#92929f",
+            TextDisabled = "#ffffff33",
+            DrawerIcon = "#92929f",
+            DrawerText = "#92929f",
+            GrayLight = "#2a2833",
+            GrayLighter = "#1e1e2d",
+            Info = "#4a86ff",
+            Success = "#3dcb6c",
+            Warning = "#ffb545",
+            Error = "#ff3f5f",
+            LinesDefault = "#33323e",
+            TableLines = "#33323e",
+            Divider = "#292838",
+            OverlayLight = "#1e1e2d80",
+        };
+
+    public string DarkLightModeButtonIcon => _isDarkMode switch
+    {
+        true => Icons.Material.Rounded.LightMode,
+        false => Icons.Material.Outlined.DarkMode,
+    };
+
 }

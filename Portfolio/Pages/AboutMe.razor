@@ -1,146 +1,192 @@
-﻿<MudText Color="Color.Secondary" Align="Align.Center" Typo="Typo.h4">Professional Experience</MudText>
-<MudTimeline>
-    @foreach (var item in WorkExperience.Concat(OpenSourceProjects.Select(p => new WorkExperienceItem
-    {
-        DateRange = p.DateRange ?? "",  // Use empty string if DateRange is null
-        Company = p.Name,
-        Position = "Open Source Contributor",
-        Description = p.Description,
-        MediaLinks = new List<MediaLink>
-        {
-            new MediaLink { Url = p.Url, Description = "Project Media" }
-        }
-    })))
-    {
-        <MudTimelineItem Color="Color.Primary" Size="Size.Medium">
-            <ItemOpposite>
-                <MudText Color="Color.Dark" Typo="Typo.h6">@item.DateRange</MudText>
-            </ItemOpposite>
-            <ItemContent>
-                <MudPaper Elevation="3" Class="pa-3">
-                    <MudText Color="Color.Primary" Typo="Typo.h6" GutterBottom="true">@item.Company</MudText>
-                    <MudText>@item.Position</MudText>
-                    <MudDivider Class="my-2" />
-                    <MudText>@item.Description</MudText>
-                    @if (item.MediaLinks != null && item.MediaLinks.Any())
-                    {
-                        <MudDivider Class="my-2" />
-                        <MudText Typo="Typo.subtitle1">Projects and Media:</MudText>
-                        <MudList>
-                            @foreach (var link in item.MediaLinks)
-                            {
-                                <MudListItem>
-                                    <MudHover>
-                                        <MudHoverTrigger>
-                                            <MudLink Href="@link.Url" Target="_blank">@link.Description</MudLink>
-                                        </MudHoverTrigger>
-                                        <MudHoverContent>
-                                            <MudPaper Elevation="4" Class="pa-3">
-                                                <MudText>@link.Description</MudText>
-                                                <MudImage Src="@link.Url" Alt="@link.Description" Style="width: 100%; height: auto;" />
-                                            </MudPaper>
-                                        </MudHoverContent>
-                                    </MudHover>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-                </MudPaper>
-            </ItemContent>
-        </MudTimelineItem>
+﻿@inject IJSRuntime JSRuntime
+
+<!-- You can place this style block directly in the .razor file or in your site's CSS file -->
+<style>
+    /* Style for the tabs in the Experience section */
+    .mud-tabs .mud-tab {
+        color: #aeaeae; /* Color for inactive tabs */
     }
-</MudTimeline>
+    .mud-tabs .mud-tab.mud-tab-active {
+        color: #ffffff; /* Color for the active tab */
+    }
+    
+    /* Ensure the canvas for the hero section covers the background */
+    #hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1; /* Behind the text */
+    }
+
+    /* Ensure the text content is on top of the canvas */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="px-4 md:px-16">
+
+    <!-- SECTION 1: HERO -->
+    <section id="hero" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative;">
+        <!-- The Babylon.js canvas will render here as a background -->
+        <canvas id="hero-canvas"></canvas>
+        
+        <!-- The text and button content for the hero section -->
+        <div class="hero-content">
+            <MudText Typo="Typo.h2" GutterBottom="true" Style="font-weight: 600;">ASHEESH MAHESHWARI</MudText>
+            <MudText Typo="Typo.h5" Class="mb-4" Color="Color.Primary">Industrial Metaverse & AI Specialist</MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" OnClick="@(() => ScrollToSection("about"))" Class="mt-4">
+                Explore My Work
+            </MudButton>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT ME -->
+    <section id="about" class="py-16">
+        <MudPaper Elevation="3" Class="pa-8">
+            <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">About Me</MudText>
+            <MudText Typo="Typo.h6" Align="Align.Center" Style="font-weight: 300; max-width: 800px; margin: auto;">
+                Innovating at the Intersection of the Physical and Digital Worlds.
+            </MudText>
+            <MudDivider Class="my-8" />
+            <MudText Typo="Typo.body1" Style="font-size: 1.1rem; line-height: 1.8;">
+                I am a dedicated Software Engineer with a passion for building the future of industrial technology. My expertise lies in the Industrial Metaverse, AI-driven Digital Twins, and immersive AR/VR experiences. I specialize in architecting and developing high-performance, scalable solutions that merge real-time data with interactive simulations. With a strong foundation in Go, .NET, C++, Python, and cloud platforms like AWS, I thrive on creating cutting-edge applications that enhance efficiency, safety, and decision-making in complex industrial environments.
+            </MudText>
+        </MudPaper>
+    </section>
+
+    <!-- SECTION 3: SKILLS & EXPERTISE -->
+    <section id="skills" class="py-16">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Skills & Expertise</MudText>
+        <MudGrid Spacing="4" Justify="Justify.Center" Class="mt-8">
+            <MudItem xs="12" sm="6" md="4">
+                <MudPaper Elevation="3" Class="pa-4" Height="100%">
+                    <MudText Typo="Typo.h5" GutterBottom="true">Languages</MudText>
+                    <MudChipSet T="string" AllClosable="false" Filter="true" Mandatory="true">
+                        <MudChip T="string" Color="Color.Primary">Go</MudChip>
+                        <MudChip T="string" Color="Color.Primary">C#</MudChip>
+                        <MudChip T="string" Color="Color.Primary">C++</MudChip>
+                        <MudChip T="string" Color="Color.Primary">Python</MudChip>
+                    </MudChipSet>
+                    </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudPaper Elevation="3" Class="pa-4" Height="100%">
+                            <MudText Typo="Typo.h5" GutterBottom="true">Frameworks & Platforms</MudText>
+                            <MudChipSet T="string" AllClosable="false" Filter="true" Mandatory="true">
+                                <MudChip T="string" Color="Color.Secondary">.NET</MudChip>
+                                <MudChip T="string" Color="Color.Secondary">Unity</MudChip>
+                                <MudChip T="string" Color="Color.Secondary">Unreal Engine</MudChip>
+                                <MudChip T="string" Color="Color.Secondary">OnnxRuntime</MudChip>
+                            </MudChipSet>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudPaper Elevation="3" Class="pa-4" Height="100%">
+                            <MudText Typo="Typo.h5" GutterBottom="true">Cloud & DevOps</MudText>
+                            <MudChipSet T="string" AllClosable="false" Filter="true" Mandatory="true">
+                                <MudChip T="string" Color="Color.Tertiary">AWS</MudChip>
+                                <MudChip T="string" Color="Color.Tertiary">Terraform</MudChip>
+                                <MudChip T="string" Color="Color.Tertiary">gRPC</MudChip>
+                                <MudChip T="string" Color="Color.Tertiary">WebRTC</MudChip>
+                            </MudChipSet>
+                        </MudPaper>
+                    </MudItem>
+        </MudGrid>
+    </section>
+
+    <!-- SECTION 4: PROFESSIONAL EXPERIENCE -->
+    <section id="experience" class="py-16">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Professional Experience</MudText>
+        <MudTabs Elevation="4" Rounded="true" Centered="true" PanelClass="mt-4">
+            <MudTabPanel Text="Siemens Technology">
+                <MudTimeline TimelinePosition="TimelinePosition.Alternate">
+                    <MudTimelineItem>Virtual Training System</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Secondary">Simulation-Based Digital Twin</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Surface">Building-X Sustainability Manager</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Tertiary">ML Inferencing on Mixed Reality</MudTimelineItem>
+                     <MudTimelineItem Color="Color.Info">Human Digital Twin Platform</MudTimelineItem>
+                </MudTimeline>
+            </MudTabPanel>
+            <MudTabPanel Text="HoloWorld">
+                 <MudTimeline TimelinePosition="TimelinePosition.Alternate">
+                    <MudTimelineItem>Lead Software Engineer</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Secondary">HoloSuit Motion Capture System</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Surface">BHIMA Humanoid Robot</MudTimelineItem>
+                    <MudTimelineItem Color="Color.Tertiary">Exoskeleton Development</MudTimelineItem>
+                </MudTimeline>
+            </MudTabPanel>
+            <MudTabPanel Text="Johns Hopkins University">
+                <MudPaper Class="pa-4" Elevation="0">
+                    <MudText Typo="Typo.h6">Summer Research Intern</MudText>
+                    <MudText Typo="Typo.body1">Contributed to a mixed-reality training environment for upper-limb prosthesis control and developed ML-driven, real-time tactile feedback algorithms.</MudText>
+                </MudPaper>
+            </MudTabPanel>
+        </MudTabs>
+    </section>
+
+    <!-- SECTION 5: PROJECTS SHOWCASE -->
+    <section id="projects" class="py-16">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Projects Showcase</MudText>
+        <MudGrid Spacing="4" Class="mt-8">
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Height="100%">
+                    <MudCardHeader><MudText Typo="Typo.h6">FREYR Mega-Factory Metaverse</MudText></MudCardHeader>
+                    <MudCardContent><MudText Typo="Typo.body2">Developed an industrial metaverse experience for Hannover Messe, integrating human movement and simulation workflows.</MudText></MudCardContent>
+                    <MudCardActions><MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton></MudCardActions>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Height="100%">
+                    <MudCardHeader><MudText Typo="Typo.h6">Avatar ANA XPRIZE Challenge</MudText></MudCardHeader>
+                    <MudCardContent><MudText Typo="Typo.body2">Reached semi-finals by deploying a humanoid robot controlled by HoloSuit, streaming immersive data over WebRTC.</MudText></MudCardContent>
+                    <MudCardActions><MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton></MudCardActions>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Height="100%">
+                    <MudCardHeader><MudText Typo="Typo.h6">Neuro Rehabilitation & Ergonomics</MudText></MudCardHeader>
+                    <MudCardContent><MudText Typo="Typo.body2">Built a product for generating human motion data, successfully deployed at Ford and Bajaj factories for ergonomic analysis.</MudText></MudCardContent>
+                    <MudCardActions><MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton></MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </section>
+    
+    <!-- SECTION 6: CONTACT -->
+    <section id="contact" class="py-16">
+        <MudPaper Elevation="3" Class="pa-8">
+             <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Get In Touch</MudText>
+             <MudText Align="Align.Center" Typo="Typo.body1" Class="mt-4">Feel free to reach out via email or connect with me on social media.</MudText>
+             <div class="d-flex justify-center mt-6">
+                <MudIconButton Icon="@Icons.Material.Filled.Email" Href="mailto:asheeshagra@gmail.com" Size="Size.Large" Title="Email" />
+                <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" Href="your_linkedin_url_here" Target="_blank" Size="Size.Large" Title="LinkedIn" />
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="your_github_url_here" Target="_blank" Size="Size.Large" Title="GitHub" />
+             </div>
+             <MudText Align="Align.Center" Typo="Typo.body1" Class="mt-4">+91-7483852201</MudText>
+        </MudPaper>
+    </section>
+
+</MudContainer>
 
 
 @code {
-    private List<WorkExperienceItem> WorkExperience = new List<WorkExperienceItem>
+    // This lifecycle method runs after the component has rendered.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        new WorkExperienceItem
+        // We only want to initialize the Babylon.js scene once, on the first render.
+        if (firstRender)
         {
-            DateRange = "June 2019 - Current",
-            Company = "HoloWorld",
-            Position = "Senior Software Engineer",
-            Description = "Senior Software Engineer at HoloWorld.",
-            MediaLinks = new List<MediaLink>
-            {
-                new MediaLink { Url = "https://example.com/project1", Description = "Project 1 Video" },
-                new MediaLink { Url = "https://example.com/project2", Description = "Project 2 Photo" }
-            }
-        },
-        new WorkExperienceItem
-        {
-            DateRange = "December 2018 - May 2019",
-            Company = "HoloWorld",
-            Position = "Final Year Intern",
-            Description = "Final Year Intern at HoloWorld.",
-            MediaLinks = new List<MediaLink>
-            {
-                new MediaLink { Url = "https://example.com/project3", Description = "Project 3 Link" }
-            }
-        },
-        new WorkExperienceItem
-        {
-            DateRange = "May 2018 - July 2018",
-            Company = "Johns Hopkins University",
-            Position = "Summer Research Intern",
-            Description = "Worked as summer research intern at NeuroEngineering Lab at JHU.",
-            MediaLinks = new List<MediaLink>
-            {
-                new MediaLink { Url = "https://example.com/project4", Description = "Project 4 Link" }
-            }
-        },
-        new WorkExperienceItem
-        {
-            DateRange = "May 2017 - June 2017",
-            Company = "Jaipur Foot (BMVSS)",
-            Position = "Intern",
-            Description = "Intern at Jaipur Foot.",
-            MediaLinks = new List<MediaLink>
-            {
-                new MediaLink { Url = "https://example.com/project5", Description = "Project 5 Link" }
-            }
+            await JSRuntime.InvokeVoidAsync("portfolioApp.initBabylon", "hero-canvas");
         }
-    };
-
-    private List<OpenSourceProject> OpenSourceProjects = new List<OpenSourceProject>
-    {
-        new OpenSourceProject
-        {
-            Name = "Project 1",
-            Url = "https://github.com/yourusername/project1",
-            Description = "Description for Project 1.",
-            DateRange = "January 2022 - Present"  // Add date range here
-        },
-        new OpenSourceProject
-        {
-            Name = "Project 2",
-            Url = "https://github.com/yourusername/project2",
-            Description = "Description for Project 2.",
-            DateRange = "June 2021 - December 2021"  // Add date range here
-        }
-    };
-
-    public class WorkExperienceItem
-    {
-        public string DateRange { get; set; }
-        public string Company { get; set; }
-        public string Position { get; set; }
-        public string Description { get; set; }
-        public List<MediaLink> MediaLinks { get; set; }
     }
 
-    public class MediaLink
+    // This C# method calls the JavaScript function to smoothly scroll to a section.
+    private async Task ScrollToSection(string sectionId)
     {
-        public string Url { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class OpenSourceProject
-    {
-        public string Name { get; set; }
-        public string Url { get; set; }
-        public string Description { get; set; }
-        public string DateRange { get; set; }  // Added DateRange
+        await JSRuntime.InvokeVoidAsync("portfolioApp.scrollToSection", sectionId);
     }
 }
-  

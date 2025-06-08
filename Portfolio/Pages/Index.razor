@@ -3,46 +3,4 @@
 
 <PageTitle>Home</PageTitle>
 
-
-<div id="water-effect-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-    <canvas id="water-effect-canvas" style="position: absolute; top: 0; left: 0;"></canvas>
-    <div class= "content">
-        <MudPaper Height="100%" Width="100%" Class="container">
-            <MudText Align="Align.Center" Class="centered " Color=Color.Primary Typo="Typo.h1">Bring ideas to life with code..</MudText>
-            <MudImage Src="images/profile_exo.jpg" Fluid="true" Class="container" Style=" opacity: 0.5"></MudImage>
-        </MudPaper>
-        
-        <AboutMe />
-    </div>
-</div>
-
-<style>
-   
-    .container {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: 85vh; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-        text-align: center;
-    }
-
-    .centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        align-content : center ;
-        font-size: 10vw;
-    }
-</style>
-
-    
-@code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync("initializeWaterEffect");
-        }
-    }
-}
+<AboutMe />
