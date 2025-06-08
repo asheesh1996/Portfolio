@@ -10,7 +10,14 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _tabs.Add(new TabViewComponent.TabView { githuburl = "https://github.com/asheesh1996/UR3_IK-Simulation/", Name = "UR3 Control", Id = Guid.NewGuid(), hostingurl = "https://asheesh1996.github.io/UR3_IK-Simulation/" });
+        _tabs.Add(
+            new TabViewComponent.TabView 
+            { 
+                Id = Guid.NewGuid(), 
+                Name = "Open Cv PlayGround", 
+                githuburl = "https://github.com/asheesh1996/ComputerVisionSamples", 
+                hostingurl = "https://asheesh1996.github.io/ComputerVisionSamples/" 
+            });
     }
 
 }
